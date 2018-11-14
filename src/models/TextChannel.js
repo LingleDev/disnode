@@ -6,7 +6,7 @@ module.exports = class TextChannel extends Channel {
         super(obj, client);
     }
 
-    async createMessage(content, extra) {
+    async send(content, extra) {
         const payload = {
             content: null,
             tts: false,
