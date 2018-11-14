@@ -1,43 +1,37 @@
-var tok;
-var WebSocket = require("ws"), ws = new WebSocket("wss://gateway.discord.gg/?encoding=json&v=6")
-const statusTypes = require('./util/Constants').statusTypes
-function connectToGate(token) {
-tok=token
-var sequence = 0;
-ws.onopen = function() {
-    return console.log("OPEN!")
-}, ws.onerror = function(a) {
-    console.error(a), process.exit(1)
-}, ws.onclose = function(a) {
-    console.error(a), process.exit(1)
-}, ws.onmessage = function(a) {
-    try {
-        var b = JSON.parse(a.data);
-        if (0 === b.op) return;
-        console.log(b.op), sequence = b.s, 10 === b.op && (ws.send(JSON.stringify({
-            op: 2,
-            d: {
-                token: token,
-                properties: {
-                    $browser: "b1nzy is a meme"
-                },
-                large_threshold: 50
-            }
-        })), setInterval(function() {
-            ws.send(JSON.stringify({
-                op: 1,
-                d: sequence
-            }))
-        }, b.d.heartbeat_interval))
-    } catch (a) {
-        console.error(a)
-    }
-};
-}
-
+const ws = require('ws')
+const socket = new ws(`wss://gateway.discord.gg/?v=6&encoding=json`)
+var sequence;
 module.exports.WebSocket = class WebSocket {
   connect(token) {
-    connectToGate(token)
+    socket.on('message', (a) => {
+        const d = JSON.parse(a) || incoming
+        sequence = d.s
+        
+        switch(d.op) {
+            case: 10: /* Hello */
+                setInterval(() => {
+                    socket.send(JSON.stringify({
+                        op: 1,
+                        d: sequence
+                    }, d.d.heartbeat_interval))
+                }, d.d.hearbeat_interval)
+                
+                socket.send(JSON.stringify({
+                    op: 2,
+                    d: {
+                        token: token,
+                        properties: {
+                            $os: "linux",
+                            $browser: "discnode",
+                            $device: "discnode"
+                        },
+                        large_threshold: 250,
+                        compress: false
+                    }
+                }));
+                break;
+        }
+    })
   }
 
   updateStatus(status) {
