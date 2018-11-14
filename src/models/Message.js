@@ -1,5 +1,5 @@
 const Guild = require('./Guild')
-const TextChannel = require('./Channel')
+const TextChannel = require('./TextChannel')
 
 module.exports = class Message {
   constructor(obj, addons, client) {
