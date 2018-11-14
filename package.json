@@ -1,11 +1,12 @@
 {
-  "name": "runner",
-  "version": "1.0.0",
+  "name": "discnode",
+  "version": "0.0.1",
   "main": "index.js",
   "dependencies": {
     "ws": "latest",
     "mongoose": "^5.3.12",
-    "snekfetch": "^4.0.4"
+    "snekfetch": "^4.0.4",
+    "phin": "latest"
   },
   "devDependencies": {},
   "scripts": {
