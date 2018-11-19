@@ -33,7 +33,21 @@ module.exports = {
       obj.ready = true;
       
       client.guilds.set(d.d.id, obj);
-      client.emit('guildCreate', obj)
+      client.emit('guildAvailable', obj)
+    } else {
+      client.guilds.set(d.d.id, obj)
+      client.emit("guildCreate", obj)
     }
+  },
+  
+  'message': (client, d) => {
+    let Message = require('./models/Message')
+    
+    let msg = new Message(d.d, {
+      guild: client.guilds.get(d.d.guild_id),
+      channel: client.channels.get(d.d.channel_id)
+    }, client)
+    
+    client.emit('message', msg)
   }
-}
+} 
