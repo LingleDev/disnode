@@ -1,36 +1,23 @@
-const websocket = new (require('../webSocket.js').WebSocket)
-const connect = websocket.connect
-const isConnected = require('../webSocket.js').isConnected
-const socket = require('../webSocket.js').ws
-const rest = require('../REST/RESTManager.js')
-/** 
- * @param {String}[token] Your application's token
-*/
+const EventEmitter = require('events')
+const Collection = require('../util/Collection')
+const websocket = require("../websocket.js")
 
-class Client {
-  /**
-   * Logs into Discord.
-   */
-  login(token) {
-    connect(token)
+module.exports = class Client extends EventEmitter {
+  constructor(token, options) {
+    super();
+    
+    this.guilds = new Collection()
+    this.users = new Collection()
+    this.channels = new Collection()
+    
+    this.token = token
+    this.readyAt = 0;
+    this.user = null;
+    this.sessionId = null;
+    
   }
-
-  destroy() {
-    process.exit(666)
-  }
-
-  sendMsg(id, content) {
-    rest.createMsg(id, content)
-  }
-
-  setStatus(status) {
-    websocket.updateStatus(status)
-  }
-
-  setPresence(game, options, status) {
-    //if (typeof(options) !== Object) throw new Error("Options must be an object.");
-    websocket.updatePresence(game, options, status)
+  
+  login() {
+    websocket.connect()
   }
 }
-
-module.exports = Client
