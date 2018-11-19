@@ -18,6 +18,6 @@ module.exports = class Client extends EventEmitter {
   }
   
   login() {
-    websocket.connect()
+    websocket.connect(token)
   }
 }
