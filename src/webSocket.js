@@ -57,10 +57,10 @@ module.exports.WebSocket = class WebSocket {
   updatePresence(game, options, status) {
     if (!statusTypes.includes(status)) throw new Error("Not a valid Discord Status type!")
     const presencetypes = {
-      "playing": "PLAYING",
-      "streaming": "STREAMING",
-      "listening": "LISTENING",
-      "watching": "WATCHING"
+      playing: "PLAYING",
+      streaming: "STREAMING",
+      listening: "LISTENING",
+      watching: "WATCHING"
     }
     if (options.type == presencetypes.playing) {
       try {
