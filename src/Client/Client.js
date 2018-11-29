@@ -17,6 +17,6 @@ module.exports = class Client extends EventEmitter {
   }
   
   setStatus(status) {
-    websocket.setStatus(status)
+    websocket.updateStatus(status)
   }
 }
